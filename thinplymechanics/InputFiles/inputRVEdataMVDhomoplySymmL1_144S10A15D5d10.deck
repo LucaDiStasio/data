@@ -46,7 +46,7 @@ simulation-pipeline, analysis, report-stressesverticalpaths, nSegsOnPath        
 # Directory and names for CAE model generation
 input, modelname @aname $string
 input, wd @C:/Abaqus_WD/CurvedInterface $string
-input, caefilename @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
+input, caefilename @sweepDthetaMVDhomoplySymmL1_144S10A15D5d10 $string
 #
 # Geometry
 geometry, deltatheta          @10.0               $float
@@ -55,8 +55,8 @@ geometry, Rf                  @1.0                $float
 geometry, L                   @1.144              $float
 geometry, fiber, type         @half               $string
 geometry, nDebonds            @10                $int
-geometry, debonds, deltatheta @[10,10,10,10,10,10,10,10,10,10]  $list of float
-geometry, debonds, theta @[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]  $list of float
+geometry, debonds, deltatheta @[10,10,10,10,10]  $list of float
+geometry, debonds, theta @[0.0,0.0,0.0,0.0,0.0]  $list of float
 #
 # Materials (repeat keywords for every material to be defined)
 materials, 1, name            @glassFiber $string
@@ -150,7 +150,7 @@ loads, 2, stepName @Load-Step $string
 # boundingPly             ==> homogenized material
 # adjacentFibers          ==> fibers and matrix (microstructure)
 BC, northSide, type     @boundingPly $string
-BC, northSide, tRatio   @0.47619 $float #A/(2D+1)
+BC, northSide, tRatio   @1.36 $float #A/(2D+1)
 BC, northSide, nFibers  @10 $int
 BC, rightSide, type     @adjacentFibers $string
 BC, rightSide, tRatio   @0.0 $float
@@ -192,22 +192,22 @@ solver, cpus  @40 $int
 #
 # Output directory and filenames
 output, archive, directory                             @G:/sweepDeltathetaVff-GF-BCvkinmeancornerscoupling $string
-output, global, directory                              @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
-output, global, filenames, performances                @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-performances $string
-output, global, filenames, energyreleaserate           @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-energyreleaserates $string
-output, global, filenames, inputdata                   @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-inputdata $string
-output, local, directory                               @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
+output, global, directory                              @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A15D5d10 $string
+output, global, filenames, performances                @sweepDthetaMVDhomoplySymmL1_144S10A15D5d10-performances $string
+output, global, filenames, energyreleaserate           @sweepDthetaMVDhomoplySymmL1_144S10A15D5d10-energyreleaserates $string
+output, global, filenames, inputdata                   @sweepDthetaMVDhomoplySymmL1_144S10A15D5d10-inputdata $string
+output, local, directory                               @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A15D5d10 $string
 output, local, filenames, Jintegral                    @C:/ $string
 output, local, filenames, stressesatboundary           @C:/ $string
 output, local, filenames, crackdisplacements           @C:/ $string
 output, local, filenames, contactzonetolerance         @C:/ $string
-output, report, global, directory                      @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
-output, report, global, filename                       @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-report $string
+output, report, global, directory                      @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A15D5d10 $string
+output, report, global, filename                       @sweepDthetaMVDhomoplySymmL1_144S10A15D5d10-report $string
 output, report, local, directory                       @[] $list of string
 output, report, local, filenames, Jintegral            @[] $list of string
 output, report, local, filenames, stressesatboundary   @[] $list of string
 output, report, local, filenames, crackdisplacements   @[] $list of string
 output, report, local, filenames, contactzonetolerance @[] $list of string
-output, sql, global, directory                         @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
-output, sql, global, filename                          @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10DB $string
+output, sql, global, directory                         @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A15D5d10 $string
+output, sql, global, filename                          @sweepDthetaMVDhomoplySymmL1_144S10A15D5d10DB $string
 #
