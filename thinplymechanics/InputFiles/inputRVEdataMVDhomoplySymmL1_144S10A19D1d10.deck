@@ -1,0 +1,213 @@
+# Automatically generated on 29/01/2019 at 10:21:42
+# everything after is a comment
+# keywords are divided by commas: keyword1, keyword2, ...
+# the corresponding value is introduced by @
+# variable type is introduced by $
+#
+# Select execution steps in the pipeline
+simulation-pipeline, modify-INP @True $boolean
+simulation-pipeline, remove-SIM @True $boolean
+simulation-pipeline, remove-MSG @True $boolean
+simulation-pipeline, remove-PRT @True $boolean
+simulation-pipeline, archive-ODB @False $boolean
+simulation-pipeline, report-EXCEL @False $boolean
+simulation-pipeline, remove-DAT @True $boolean
+simulation-pipeline, analyze-ODB @True $boolean
+simulation-pipeline, archive-CAE @False $boolean
+simulation-pipeline, create-CAE @True $boolean
+simulation-pipeline, report-LATEX @False $boolean
+simulation-pipeline, remove-COM @True $boolean
+simulation-pipeline, remove-ODB @False $boolean
+simulation-pipeline, remove-STA @True $boolean
+simulation-pipeline, remove-INP @True $boolean
+#
+# Select outputs in the analysis phase
+simulation-pipeline, analysis, report-crackdisplacements                          @False $boolean
+simulation-pipeline, analysis, report-contactzone                                 @False $boolean
+simulation-pipeline, analysis, report-energyreleaserates                          @True $boolean
+simulation-pipeline, analysis, report-stressesatsymmetryline                      @False $boolean
+simulation-pipeline, analysis, report-stressesatbondedinterface                   @False $boolean
+simulation-pipeline, analysis, report-stressesatboundary                          @False $boolean
+simulation-pipeline, analysis, report-stressesradialpaths, start                  @False  $boolean
+simulation-pipeline, analysis, report-stressesradialpaths, startParameter         @0.0   $float
+simulation-pipeline, analysis, report-stressesradialpaths, endParameter           @180.0 $float
+simulation-pipeline, analysis, report-stressesradialpaths, stepParameter          @45.0  $float
+simulation-pipeline, analysis, report-stressesradialpaths, nSegsOnPath            @100   $int
+simulation-pipeline, analysis, report-stressescircumferentialpaths, start         @False  $boolean
+simulation-pipeline, analysis, report-stressescircumferentialpaths, stepParameter @2     $int
+simulation-pipeline, analysis, report-stressescircumferentialpaths, nSegsOnPath   @100   $int
+simulation-pipeline, analysis, report-stresseshorizontalpaths, start              @False  $boolean
+simulation-pipeline, analysis, report-stresseshorizontalpaths, stepParameter      @2     $int
+simulation-pipeline, analysis, report-stresseshorizontalpaths, nSegsOnPath        @100   $int
+simulation-pipeline, analysis, report-stressesverticalpaths, start                @False  $boolean
+simulation-pipeline, analysis, report-stressesverticalpaths, stepParameter        @2     $int
+simulation-pipeline, analysis, report-stressesverticalpaths, nSegsOnPath          @100   $int
+#
+# Directory and names for CAE model generation
+input, modelname @aname $string
+input, wd @C:/Abaqus_WD/CurvedInterface $string
+input, caefilename @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
+#
+# Geometry
+geometry, deltatheta          @10.0               $float
+geometry, theta               @0.0                $float
+geometry, Rf                  @1.0                $float
+geometry, L                   @1.144              $float
+geometry, fiber, type         @half               $string
+geometry, nDebonds            @10                $int
+geometry, debonds, deltatheta @[10,10,10,10,10,10,10,10,10,10]  $list of float
+geometry, debonds, theta @[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]  $list of float
+#
+# Materials (repeat keywords for every material to be defined)
+materials, 1, name            @glassFiber $string
+materials, 1, elastic, type   @ISOTROPIC $ABAQUS keyword
+materials, 1, elastic, values @[70e3,0.2] $list of float
+materials, 2, name            @epoxy $string
+materials, 2, elastic, type   @ISOTROPIC $ABAQUS keyword
+materials, 2, elastic, values @[3.5e3,0.4] $list of float
+materials, 3, name            @UD $string
+materials, 3, elastic, type   @ENGINEERING_CONSTANTS $ABAQUS keyword
+materials, 3, elastic, values @[13714,13714,43442,0.465,0.086,0.086,4681,4315,4315] $list of float
+#
+# Values of nu and G needed for postprocessing
+postproc, nu-G0 @0.4 $float
+postproc, G-G0 @1250.0 $float
+#
+# Section properties (repeat for every section to be defined)
+sections, 1, name      @fiberSection $string
+sections, 1, type      @HomogeneousSolidSection $string
+sections, 1, material  @glassFiber $string
+sections, 1, thickness @1.0 $float
+sections, 2, name      @matrixSection $string
+sections, 2, type      @HomogeneousSolidSection $string
+sections, 2, material  @epoxy $string
+sections, 2, thickness @1.0 $float
+sections, 3, name      @udSection $string
+sections, 3, type      @HomogeneousSolidSection $string
+sections, 3, material  @UD $string
+sections, 3, thickness @1.0 $float
+#
+# Section assignments (repeat as needed)
+sectionRegions, 1, name                 @fiberSection $string
+sectionRegions, 1, set                  @FIBER $string
+sectionRegions, 1, offsetType           @MIDDLE_SURFACE $ABAQUS keyword
+sectionRegions, 1, offsetField          @  $string
+sectionRegions, 1, thicknessAssignment  @FROM_SECTION $ABAQUS keyword
+sectionRegions, 1, offsetValue          @0.0 $float
+sectionRegions, 2, name                 @matrixSection $string
+sectionRegions, 2, set                  @MATRIX $string
+sectionRegions, 2, offsetType           @MIDDLE_SURFACE $ABAQUS keyword
+sectionRegions, 2, offsetField          @  $string
+sectionRegions, 2, thicknessAssignment  @FROM_SECTION $ABAQUS keyword
+sectionRegions, 2, offsetValue          @0.0 $float
+sectionRegions, 3, name                 @fiberSection $string
+sectionRegions, 3, set                  @LEFT-FIBERS $string
+sectionRegions, 3, offsetType           @MIDDLE_SURFACE $ABAQUS keyword
+sectionRegions, 3, offsetField          @  $string
+sectionRegions, 3, thicknessAssignment  @FROM_SECTION $ABAQUS keyword
+sectionRegions, 3, offsetValue          @0.0 $float
+sectionRegions, 4, name                 @fiberSection $string
+sectionRegions, 4, set                  @RIGHT-FIBERS $string
+sectionRegions, 4, offsetType           @MIDDLE_SURFACE $ABAQUS keyword
+sectionRegions, 4, offsetField          @  $string
+sectionRegions, 4, thicknessAssignment  @FROM_SECTION $ABAQUS keyword
+sectionRegions, 4, offsetValue          @0.0 $float
+sectionRegions, 5, name                 @fiberSection $string
+sectionRegions, 5, set                  @DEBFIBER-ROWS-FIBERS $string
+sectionRegions, 5, offsetType           @MIDDLE_SURFACE $ABAQUS keyword
+sectionRegions, 5, offsetField          @  $string
+sectionRegions, 5, thicknessAssignment  @FROM_SECTION $ABAQUS keyword
+sectionRegions, 5, offsetValue          @0.0 $float
+sectionRegions, 6, name                 @udSection $string
+sectionRegions, 6, set                  @BOUNDING-PLY $string
+sectionRegions, 6, offsetType           @MIDDLE_SURFACE $ABAQUS keyword
+sectionRegions, 6, offsetField          @  $string
+sectionRegions, 6, thicknessAssignment  @FROM_SECTION $ABAQUS keyword
+sectionRegions, 6, offsetValue          @0.0 $float
+#
+# Step data
+steps, 1, name             @Load-Step $string
+steps, 1, previous         @Initial $string
+steps, 1, minimumIncrement @1e-10 $float
+#
+# Loads
+loads, 1, name     @rightBC $string
+loads, 1, type     @appliedStrain $string
+loads, 1, set      @RIGHTSIDE $string
+loads, 1, value    @[0.01,0.0,0.0] $list of float
+loads, 1, stepName @Load-Step $string
+loads, 2, name     @leftBC $string
+loads, 2, type     @appliedStrain $string
+loads, 2, set      @LEFTSIDE $string
+loads, 2, value    @[0.01,0.0,0.0] $list of float
+loads, 2, stepName @Load-Step $string
+#
+# Boundary conditions
+# vgeomcoupling           ==> nodes belong to line, free to move and rotate rigidly
+# vkinCouplingmeancorners ==> coupling of vertical displacement
+# antisymmetry            ==> antisymmetric coupling
+# ulinearCoupling         ==> linear distribution of horizontal displacement
+# boundingPly             ==> homogenized material
+# adjacentFibers          ==> fibers and matrix (microstructure)
+BC, northSide, type     @boundingPly $string
+BC, northSide, tRatio   @0.47619 $float #A/(2D+1)
+BC, northSide, nFibers  @10 $int
+BC, rightSide, type     @adjacentFibers $string
+BC, rightSide, tRatio   @0.0 $float
+BC, rightSide, nFibers  @10 $int
+BC, leftSide, type      @adjacentFibers $string
+BC, leftSide, tRatio    @0.0 $float
+BC, leftSide, nFibers  @10 $int
+#
+# Surface friction
+# none         ==> frictionless surface
+# static       ==> static friction is present
+# dynamic      ==> dynamic friction is present
+# cpress       ==> contact pressure dependent
+# temperature  ==> temperature dependent
+# maxtau       ==> maximum value of frictional shear stress
+surface, friction, type          @none $string
+surface, friction, static        @0.0 $float
+surface, friction, dynamic       @0.0 $float
+surface, friction, cpress        @0.0 $float
+surface, friction, temperature   @0.0 $float
+surface, friction, maxtau        @0.0 $float
+#
+# Mesh
+mesh, size, deltapsi      @10.0 $float
+mesh, size, deltaphi      @10.0 $float
+mesh, size, delta         @0.05 $float
+mesh, size, delta1        @1.0 $float
+mesh, size, delta2        @1.0 $float
+mesh, size, delta3        @1.0 $float
+mesh, elements, minElNum  @5 $int
+mesh, elements, order     @second $string
+#
+# J-Integral
+Jintegral, numberOfContours  @5 $int
+singularity, type            @none $string
+#
+# Solver properties
+solver, cpus  @40 $int
+#
+# Output directory and filenames
+output, archive, directory                             @G:/sweepDeltathetaVff-GF-BCvkinmeancornerscoupling $string
+output, global, directory                              @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
+output, global, filenames, performances                @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-performances $string
+output, global, filenames, energyreleaserate           @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-energyreleaserates $string
+output, global, filenames, inputdata                   @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-inputdata $string
+output, local, directory                               @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
+output, local, filenames, Jintegral                    @C:/ $string
+output, local, filenames, stressesatboundary           @C:/ $string
+output, local, filenames, crackdisplacements           @C:/ $string
+output, local, filenames, contactzonetolerance         @C:/ $string
+output, report, global, directory                      @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
+output, report, global, filename                       @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10-report $string
+output, report, local, directory                       @[] $list of string
+output, report, local, filenames, Jintegral            @[] $list of string
+output, report, local, filenames, stressesatboundary   @[] $list of string
+output, report, local, filenames, crackdisplacements   @[] $list of string
+output, report, local, filenames, contactzonetolerance @[] $list of string
+output, sql, global, directory                         @C:/Abaqus_WD/sweepDthetaMVDhomoplySymmL1_144S10A10D10d10 $string
+output, sql, global, filename                          @sweepDthetaMVDhomoplySymmL1_144S10A10D10d10DB $string
+#
